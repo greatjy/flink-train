@@ -1,9 +1,5 @@
 package com.health.alibaba.flink_demo_ch2;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
@@ -39,6 +35,7 @@ public class StreamWordCountFieldExpressionApp {
                 .print()
                 .setParallelism(1)
         ;
+
     }
 }
 
