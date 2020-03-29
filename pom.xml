@@ -35,6 +35,7 @@ under the License.
 		<scala.binary.version>2.11</scala.binary.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
+        <scala.version>2.11.12</scala.version>
 	</properties>
 
 	<repositories>
@@ -68,9 +69,25 @@ under the License.
 		</dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-java</artifactId>
-            <version>1.10.0</version>
+            <artifactId>flink-scala_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+            <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-streaming-scala_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Scala Library, provided by Flink as well. -->
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
 
         <!-- Add connector dependencies here. They must be in the default scope (compile). -->
 
@@ -103,21 +120,6 @@ under the License.
 			<artifactId>lombok</artifactId>
 			<version>1.18.10</version>
 		</dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-streaming-java_2.11</artifactId>
-            <version>1.10.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-core</artifactId>
-            <version>1.10.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-streaming-java_2.11</artifactId>
-            <version>1.10.0</version>
-        </dependency>
     </dependencies>
 
 	<build>
@@ -133,6 +135,25 @@ under the License.
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
+
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>3.2.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <args>
+                        <arg>-nobootcp</arg>
+                    </args>
+                </configuration>
+            </plugin>
 
 			<!-- We use the maven-shade plugin to create a fat jar that contains all necessary dependencies. -->
 			<!-- Change the value of <mainClass>...</mainClass> if your program entry point changes. -->
@@ -182,45 +203,45 @@ under the License.
 		<pluginManagement>
 			<plugins>
 
-				<!-- This improves the out-of-the-box experience in Eclipse by resolving some warnings. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.apache.maven.plugins</groupId>
-										<artifactId>maven-shade-plugin</artifactId>
-										<versionRange>[3.1.1,)</versionRange>
-										<goals>
-											<goal>shade</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore/>
-									</action>
-								</pluginExecution>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.apache.maven.plugins</groupId>
-										<artifactId>maven-compiler-plugin</artifactId>
-										<versionRange>[3.1,)</versionRange>
-										<goals>
-											<goal>testCompile</goal>
-											<goal>compile</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore/>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
+				<!--&lt;!&ndash; This improves the out-of-the-box experience in Eclipse by resolving some warnings. &ndash;&gt;-->
+				<!--<plugin>-->
+					<!--<groupId>org.eclipse.m2e</groupId>-->
+					<!--<artifactId>lifecycle-mapping</artifactId>-->
+					<!--<version>1.0.0</version>-->
+					<!--<configuration>-->
+						<!--<lifecycleMappingMetadata>-->
+							<!--<pluginExecutions>-->
+								<!--<pluginExecution>-->
+									<!--<pluginExecutionFilter>-->
+										<!--<groupId>org.apache.maven.plugins</groupId>-->
+										<!--<artifactId>maven-shade-plugin</artifactId>-->
+										<!--<versionRange>[3.1.1,)</versionRange>-->
+										<!--<goals>-->
+											<!--<goal>shade</goal>-->
+										<!--</goals>-->
+									<!--</pluginExecutionFilter>-->
+									<!--<action>-->
+										<!--<ignore/>-->
+									<!--</action>-->
+								<!--</pluginExecution>-->
+								<!--<pluginExecution>-->
+									<!--<pluginExecutionFilter>-->
+										<!--<groupId>org.apache.maven.plugins</groupId>-->
+										<!--<artifactId>maven-compiler-plugin</artifactId>-->
+										<!--<versionRange>[3.1,)</versionRange>-->
+										<!--<goals>-->
+											<!--<goal>testCompile</goal>-->
+											<!--<goal>compile</goal>-->
+										<!--</goals>-->
+									<!--</pluginExecutionFilter>-->
+									<!--<action>-->
+										<!--<ignore/>-->
+									<!--</action>-->
+								<!--</pluginExecution>-->
+							<!--</pluginExecutions>-->
+						<!--</lifecycleMappingMetadata>-->
+					<!--</configuration>-->
+				<!--</plugin>-->
 			</plugins>
 		</pluginManagement>
 	</build>

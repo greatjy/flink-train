@@ -40,6 +40,5 @@ public class BatchWordCountJavaApp {
                 .groupBy(0)
                 .sum(1)
                 .print();
-
     }
 }
