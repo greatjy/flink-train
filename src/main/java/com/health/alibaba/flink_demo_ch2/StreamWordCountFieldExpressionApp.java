@@ -42,11 +42,3 @@ public class StreamWordCountFieldExpressionApp {
     }
 }
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-class WordCount {
-    String word;
-    Integer count;
-}
