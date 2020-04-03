@@ -13,7 +13,7 @@ public class DataStreamSinkCustomToMysql {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         writeToMysql(env);
-        env.execute("DataStreamSinkCustomToMysql job");
+//        env.execute("DataStreamSinkCustomToMysql job");
 
     }
 
